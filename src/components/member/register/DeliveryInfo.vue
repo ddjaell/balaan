@@ -60,15 +60,46 @@
     export default {
         data () {
             return{
-                memberName : null,
-                memberMainAddress : null,
-                memberSubAddress : null,
-                memberPhoneNumber : null,
                 nameRegEx : /^[가-힣]{2,}|[a-zA-Z]{3,}$/,
-                phoneNumRegEx : /^01([0|1|6|7|8|9])-?\s?([0-9]{3,4})-?\s?([0-9]{4})$/,
+                phoneNumRegEx : /(^0[0-9]{2})-?\s?([0-9]{3,4})-?\s?([0-9]{4})$/,
                 nameRule : [v => this.nameRegEx.test(v) || '이름이 올바르지 않습니다.'],
                 phoneNumRule : [v => this.phoneNumRegEx.test(v) || '휴대폰 양식이 올바르지 않습니다.']
             }
+        },
+        computed : {
+            memberName : {
+                get() {
+                    return this.$store.getters.getName
+                },
+                set(val) {
+                    this.$store.commit("setName", val)
+                }
+            },
+            memberMainAddress : {
+                get() {
+                    return this.$store.getters.getMainAddress
+                },
+                set(val) {
+                    this.$store.commit("setMainAddress", val)
+                }
+            },
+            memberSubAddress : {
+                get() {
+                    return this.$store.getters.getSubAddress
+                },
+                set(val) {
+                    this.$store.commit("setSubAddress", val)
+                }
+            },
+            memberPhoneNumber : {
+                get() {
+                    return this.$store.getters.getPhoneNumber
+                },
+                set(val) {
+                    this.$store.commit("setPhoneNumber", val)
+                }
+            },
+
         },
         methods : {
             goToHome() {
@@ -77,7 +108,7 @@
             },
             goToPayment() {
                 if(this.validateForm()){
-                    this.setDeliveryInfo()
+                    
                     this.$router.push("/payment");
                 }
             },
@@ -95,12 +126,6 @@
                     return false
                 }
                 return true
-            },
-            setDeliveryInfo() {
-                this.$store.commit("setPhoneNumber", this.memberPhoneNumber.replaceAll(" ", "").replaceAll("-", ""))
-                this.$store.commit("setName", this.memberName)
-                this.$store.commit("setMainAddress", this.memberMainAddress)
-                this.$store.commit("setSubAddress", this.memberSubAddress)
             },
             searchAddress() {
                 new window.daum.Postcode({

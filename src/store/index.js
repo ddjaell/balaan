@@ -11,6 +11,7 @@ export default new Vuex.Store({
       mainAddress : null,
       subAddress : null,
       password : null,
+      passwordCheck : null,
       phoneNumber : null,
       cardNumber : null
     }
@@ -19,7 +20,11 @@ export default new Vuex.Store({
     getName : state => state.member.name,
     getAddress : state => state.member.mainAddress + " " + state.member.subAddress,
     getEmail : state => state.member.email,
-    getPhoneNumber : state => state.member.phoneNumber
+    getPhoneNumber : state => state.member.phoneNumber,
+    getMainAddress : state => state.member.mainAddress,
+    getSubAddress : state => state.member.subAddress,
+    getPasswordCheck : state => state.member.passwordCheck,
+    getPassword : state => state.member.password
   },
   mutations: {
     setName (state, name) {
@@ -36,6 +41,9 @@ export default new Vuex.Store({
     },
     setPassword (state, password) {
       state.member.password = password
+    },
+    setPasswordCheck (state, passwordCheck) {
+      state.member.passwordCheck = passwordCheck
     },
     setPhoneNumber (state, phoneNumber) {
       state.member.phoneNumber = phoneNumber

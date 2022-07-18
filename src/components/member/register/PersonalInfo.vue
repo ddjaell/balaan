@@ -45,9 +45,6 @@
     export default{
         data () {
             return{
-                memberEmail : null,
-                memberPassword : null,
-                memberPasswordCheck : null,
                 emailRegEx : /^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
                 passwordRegEx : /^(?=.*[a-z])(?=.*[A-Z])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,}/,
                 emailRule : [v => this.emailRegEx.test(v) || '이메일 형식을 확인해주세요.'],
@@ -55,10 +52,35 @@
                 passwordCheckRule : [v => v === this.memberPassword || '비밀번호가 다릅니다.'],
             }
         },
+        computed : {
+            memberEmail : {
+                get() {
+                    return this.$store.getters.getEmail
+                },
+                set(val) {
+                    this.$store.commit("setEmail", val)
+                }
+            },
+            memberPassword : {
+                get() {
+                    return this.$store.getters.getPassword
+                },
+                set(val) {
+                    this.$store.commit("setPassword", val)
+                }
+            },
+            memberPasswordCheck : {
+                get() {
+                    return this.$store.getters.getPasswordCheck
+                },
+                set(val) {
+                    this.$store.commit("setPasswordCheck", val)
+                }
+            },
+        },
         methods : {
             goToDelivery() {
                 if(this.validateForm()){
-                    this.setPersonalInfo()
                     this.$router.push("/delivery")
                 }
             },
@@ -72,10 +94,6 @@
                     return false
                 }
                 return true
-            },
-            setPersonalInfo() {
-                this.$store.commit('setEmail', this.memberEmail)
-                this.$store.commit('setPassword', this.memberPassword)
             }
         }
     }
